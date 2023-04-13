@@ -43,8 +43,6 @@ SadTalker-Video-Lip-Sync
 
 ## 3.模型推理(Inference)
 
-模型tts合成vits_strings.txt文本内容
-
 ```python
 python inference.py --driven_audio <audio.wav> \
                     --source_video <video.mp4> \
