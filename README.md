@@ -63,7 +63,7 @@ python inference.py --driven_audio <audio.wav> \
 #face_dain_50fps.mp4 对全脸区域进行增强使唇形更清晰+DAIN模型将25fps添帧到50fps
 ```
 
-
+https://user-images.githubusercontent.com/52994134/231731796-7c0110d8-85c0-4614-ba07-2cc8fcf44b3c.mp4
 
 ## 5.预训练模型（Pretrained model）
 
