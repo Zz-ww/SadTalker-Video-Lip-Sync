@@ -94,7 +94,7 @@ https://user-images.githubusercontent.com/52994134/231769817-8196ef1b-c341-41fa-
 
 百度网盘：（还在传速度太慢，后续更新）
 
-谷歌网盘：（还在传速度太慢，后续更新）
+谷歌网盘：https://drive.google.com/file/d/1lW4mf5YNtS4MAD7ZkAauDDWp2N3_Qzs7/view?usp=sharing
 
 ```python
 cd SadTalker-Video-Lip-Sync
