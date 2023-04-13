@@ -1,7 +1,7 @@
 # SadTalker-Video-Lip-Sync
 
 
-本项目基于SadTalker做的视频唇形合成的Wav2lip。可以通过视频文件进行语音驱动唇形生成，修改了项目中的人脸增强的方式，添加了面部区域可配置的增强方式进行人脸唇形区域增强，加入DAIN模型对生成视频进行补帧，增强生成唇形的帧间流畅度，使驱动的唇形动作更为流畅和自然。
+本项目基于SadTalkers实现视频唇形合成的Wav2lip。通过视以频文件进行语音驱动生成唇形，设置面部区域可配置的增强方式进行合成唇形（人脸）区域画面增强，提高生成唇形的清晰度。使用DAIN 插帧的DL算法对生成视频进行补帧，补充帧间合成唇形的动作过渡，使合成的唇形更为流畅、真实以及自然。
 
 ## 1.环境准备(Environment)
 
@@ -34,6 +34,7 @@ SadTalker-Video-Lip-Sync
 |   ├── ...
 ├──src
 |   ├── ...
+├──sync_show
 ├──third_part
 |   ├── ...
 ├──...
@@ -47,7 +48,8 @@ SadTalker-Video-Lip-Sync
 python inference.py --driven_audio <audio.wav> \
                     --source_video <video.mp4> \
                     --enhancer <none,lip,face> \  #(默认lip)
-                    ----use_DAIN #(使用该功能会占用较大显存和消耗较多时间)
+                    --use_DAIN \ #(使用该功能会占用较大显存和消耗较多时间)
+             		--time_step 0.5 #(插帧频率，默认0.5，即25fps—>50fps;0.25,即25fps—>100fps)
 ```
 
 
@@ -65,6 +67,10 @@ python inference.py --driven_audio <audio.wav> \
 
 https://user-images.githubusercontent.com/52994134/231769817-8196ef1b-c341-41fa-9b6b-63ad0daf14ce.mp4
 
+视频拼接到一起导致帧数统一到25fps了，插帧效果看不出来区别，具体细节可以看./sync_show目录下的单个视频进行比较。
+
+
+
 ## 5.预训练模型（Pretrained model）
 
 预训练的模型如下所示：
@@ -74,6 +80,7 @@ https://user-images.githubusercontent.com/52994134/231769817-8196ef1b-c341-41fa-
 |   ├──BFM_Fitting
 |   ├──DAIN_weight
 |   ├──hub
+|   ├──auido2exp_00300-model.pth
 |   ├──auido2pose_00140-model.pth
 |   ├──epoch_20.pth
 |   ├──facevid2vid_00189-model.pth.tar
@@ -88,20 +95,17 @@ https://user-images.githubusercontent.com/52994134/231769817-8196ef1b-c341-41fa-
 
 预训练的模型checkpoints下载路径:
 
-夸克网盘：
-链接：https://pan.quark.cn/s/2a1042b1d046
-提取码：zMBP
-
-百度网盘：（还在传速度太慢，后续更新）
+百度网盘：https://pan.baidu.com/s/15-zjk64SGQnRT9qIduTe2A  提取码：klfv
 
 谷歌网盘：https://drive.google.com/file/d/1lW4mf5YNtS4MAD7ZkAauDDWp2N3_Qzs7/view?usp=sharing
 
+夸克网盘：https://pan.quark.cn/s/2a1042b1d046  提取码：zMBP
+
 ```python
+#下载压缩包后解压到项目路径（谷歌网盘和夸克网盘下载的需要执行）
 cd SadTalker-Video-Lip-Sync
 tar -zxvf checkpoints.tar.gz
 ```
-
-
 
 ## 参考(Reference)
 
