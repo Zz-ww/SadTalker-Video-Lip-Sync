@@ -69,7 +69,15 @@ https://user-images.githubusercontent.com/52994134/231769817-8196ef1b-c341-41fa-
 
 视频拼接到一起导致帧数统一到25fps了，插帧效果看不出来区别，具体细节可以看./sync_show目录下的单个视频进行比较。
 
+**本项目和sadtalker、retalking、wav2lip唇形合成的效果比较：**
 
+|                           **our**                            |                        **sadtalker**                         |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <video  src="https://user-images.githubusercontent.com/52994134/233003969-91fa9e94-a958-4e2d-b958-902cc7711b8a.mp4" type="video/mp4"> </video> | <video  src="https://user-images.githubusercontent.com/52994134/233003985-86d0f75c-d27f-4a52-ac31-2649ccd39616.mp4" type="video/mp4"> </video> |
+|                        **retalking**                         |                         **wav2lip**                          |
+| <video  src="https://user-images.githubusercontent.com/52994134/233003982-2fe1b33c-b455-4afc-ab50-f6b40070e2ca.mp4" type="video/mp4"> </video> | <video  src="https://user-images.githubusercontent.com/52994134/233003990-2f8c4b84-dc74-4dc5-9dad-a8285e728ecb.mp4" type="video/mp4"> </video> |
+
+具体细节可以看./sync_show目录下的每个类别合成的单个视频进行比较。
 
 ## 5.预训练模型（Pretrained model）
 
