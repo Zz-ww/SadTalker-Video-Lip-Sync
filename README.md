@@ -63,6 +63,12 @@ python inference.py --driven_audio <audio.wav> \
 #none_dain_50fps.mp4 只使用DAIN模型将25fps添帧到50fps
 #lip_dain_50fps.mp4 对唇形区域进行增强使唇形更清晰+DAIN模型将25fps添帧到50fps
 #face_dain_50fps.mp4 对全脸区域进行增强使唇形更清晰+DAIN模型将25fps添帧到50fps
+
+#下面是不同方法的生成效果的视频
+#our.mp4 本项目SadTalker-Video-Lip-Sync生成的视频
+#sadtalker.mp4 sadtalker生成的full视频
+#retalking.mp4 retalking生成的视频
+#wav2lip.mp4 wav2lip生成的视频
 ```
 
 https://user-images.githubusercontent.com/52994134/231769817-8196ef1b-c341-41fa-9b6b-63ad0daf14ce.mp4
