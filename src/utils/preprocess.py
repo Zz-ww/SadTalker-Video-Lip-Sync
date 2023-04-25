@@ -144,6 +144,7 @@ class CropAndExtract():
 
             semantic_npy = np.array(video_coeffs)[:, 0]
 
+            # savemat(coeff_path, {'coeff_3dmm': semantic_npy, 'full_3dmm': np.array(full_coeffs)[:, 0]})
             savemat(coeff_path, {'coeff_3dmm': semantic_npy, 'full_3dmm': np.array(full_coeffs)[0]})
 
         return coeff_path, save_img, crop_info

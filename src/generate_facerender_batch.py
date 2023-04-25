@@ -22,29 +22,39 @@ def get_facerender_data(coeff_path, pic_path, first_coeff_path, audio_path, batc
         source_image = transform.resize(source_image, (256, 256, 3))
         source_image = source_image.transpose((2, 0, 1))
         source_image_ts = torch.FloatTensor(source_image).unsqueeze(0)
-        source_image_ts = source_image_ts.repeat(batch_size, 1, 1, 1)
         source_image_ts = source_image_ts.to(device)
         source_image_ts_list.append(source_image_ts)
     data['source_image'] = source_image_ts_list
 
     source_semantics_dict = scio.loadmat(first_coeff_path)
-
-    source_semantics = source_semantics_dict['coeff_3dmm'][:1, :73]  # 1 70
-
-    source_semantics_new = transform_semantic_1(source_semantics, semantic_radius)
-    source_semantics_ts = torch.FloatTensor(source_semantics_new).unsqueeze(0)
-    source_semantics_ts = source_semantics_ts.repeat(batch_size, 1, 1)
-    data['source_semantics'] = source_semantics_ts
+    source_semantics_ts_list = []
+    len_images = len(source_image_ts_list)
+    for i in range(source_semantics_dict['coeff_3dmm'].shape[0]):
+        source_semantics = source_semantics_dict['coeff_3dmm'][i, :73].reshape(1, -1)  # 1 70
+        source_semantics_new = transform_semantic_1(source_semantics, semantic_radius)
+        source_semantics_ts = torch.FloatTensor(source_semantics_new).unsqueeze(0)
+        source_semantics_ts_list.append(source_semantics_ts)
+    source_semantics_ts_array = np.concatenate(source_semantics_ts_list, 0)
+    source_semantics_ts = source_semantics_ts_array[None, :, :, :]
+    data['source_semantics'] = torch.FloatTensor(source_semantics_ts)
 
     # target 
     generated_dict = scio.loadmat(coeff_path)
     generated_3dmm = generated_dict['coeff_3dmm']
     generated_3dmm[:, :64] = generated_3dmm[:, :64] * 1.0
+    len_wavs = generated_3dmm.shape[0]
 
-    generated_3dmm = np.concatenate(
-        [generated_3dmm, np.repeat(source_semantics[:, 70:], generated_3dmm.shape[0], axis=0)], axis=1)
+    if len_wavs >= len_images:
+        generated_3dmm = generated_3dmm[:len_images, :70]
+    else:
+        generated_3dmm_ori = generated_3dmm[:, :70]
+        generated_3dmm_last = generated_3dmm[-1, :70].reshape(1, -1)
+        generated_3dmm_add = np.repeat(generated_3dmm_last, len_images - len_wavs, axis=0)
+        generated_3dmm = np.concatenate((generated_3dmm_ori, generated_3dmm_add))
+    source_semantics = source_semantics_dict['coeff_3dmm'][:, :73]
+    generated_3dmm = np.concatenate([generated_3dmm, source_semantics[:, 70:]], axis=1)
 
-    generated_3dmm[:, 64:] = np.repeat(source_semantics[:, 64:], generated_3dmm.shape[0], axis=0)
+    generated_3dmm[:, 64:] = source_semantics[:, 64:]
 
     with open(txt_path + '.txt', 'w') as f:
         for coeff in generated_3dmm:
@@ -59,13 +69,13 @@ def get_facerender_data(coeff_path, pic_path, first_coeff_path, audio_path, batc
         target_semantics = transform_semantic_target(generated_3dmm, frame_idx, semantic_radius)
         target_semantics_list.append(target_semantics)
 
-    remainder = frame_num % batch_size
+    remainder = frame_num % 1
     if remainder != 0:
-        for _ in range(batch_size - remainder):
+        for _ in range(1 - remainder):
             target_semantics_list.append(target_semantics)
 
     target_semantics_np = np.array(target_semantics_list)  # frame_num 70 semantic_radius*2+1
-    target_semantics_np = target_semantics_np.reshape(batch_size, -1, target_semantics_np.shape[-2],
+    target_semantics_np = target_semantics_np.reshape(1, -1, target_semantics_np.shape[-2],
                                                       target_semantics_np.shape[-1])
     data['target_semantics_list'] = torch.FloatTensor(target_semantics_np)
     data['video_name'] = video_name

@@ -107,10 +107,11 @@ def make_animation(source_image, source_semantics, target_semantics, generator, 
         predictions = []
         kp_canonical = []
         kp_source = []
-        for single_image in source_image:
+        for index, single_image in enumerate(source_image):
             kp_single = kp_detector(single_image)
             kp_canonical.append(kp_single)
-            he_source_single = mapping(source_semantics)
+            source_semantics_frame = source_semantics[:, index]
+            he_source_single = mapping(source_semantics_frame)
             kp_single = keypoint_transformation(kp_single, he_source_single)
             kp_source.append(kp_single)
 
