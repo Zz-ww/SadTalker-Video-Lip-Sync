@@ -122,7 +122,7 @@ def make_animation(source_image, source_semantics, target_semantics, generator, 
             he_driving = mapping(target_semantics_frame)
             kp_driving = keypoint_transformation(kp_canonical[frame_idx], he_driving)
             kp_norm = kp_driving
-            out = generator(source_image[frame_idx], kp_source=kp_source[frame_idx], kp_driving=kp_norm)
+            out = generator(source_image[0], kp_source=kp_source[0], kp_driving=kp_norm)
             predictions.append(out['prediction'])
         predictions_ts = torch.stack(predictions, dim=1)
     return predictions_ts
