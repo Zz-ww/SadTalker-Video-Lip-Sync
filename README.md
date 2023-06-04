@@ -6,6 +6,8 @@
 ## 1.环境准备(Environment)
 
 ```python
+# 确保python版本是3.8
+conda install python=3.8
 pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 conda install ffmpeg
 pip install -r requirements.txt
